@@ -19,12 +19,15 @@ SYNOPSIS
 		[--keep-alive-tmo=<#>     | -k <#>]
 		[--reconnect-delay=<#>    | -c <#>]
 		[--ctrl-loss-tmo=<#>	  | -l <#>]
-		[--hdr_digest             | -g]
-		[--data_digest            | -G]
+		[--hdr-digest             | -g]
+		[--data-digest            | -G]
 		[--nr-io-queues=<#>       | -i <#>]
 		[--nr-write-queues=<#>    | -W <#>]
 		[--nr-poll-queues=<#>     | -P <#>]
 		[--queue-size=<#>         | -Q <#>]
+		[--matching               | -m]
+		[--persistent             | -p]
+		[--quiet                  | -q]
 
 DESCRIPTION
 -----------
@@ -98,7 +101,9 @@ OPTIONS
 
 -k <#>::
 --keep-alive-tmo=<#>::
-	Overrides the default keep alive timeout (in seconds).
+	Overrides the default keep alive timeout (in seconds). This
+	option will be ignored for discovery, but will be passed on to
+	the subsequent connect call.
 
 -c <#>::
 --reconnect-delay=<#>::
@@ -110,16 +115,18 @@ OPTIONS
 	Overrides the default controller loss timeout period (in seconds).
 
 -g::
---hdr_digest::
+--hdr-digest::
 	Generates/verifies header digest (TCP).
 
 -G::
---data_digest::
+--data-digest::
 	Generates/verifies data digest (TCP).
 
 -i <#>::
 --nr-io-queues=<#>::
 	Overrides the default number of I/O queues create by the driver.
+	This option will be ignored for discovery, but will be passed on
+	to the subsequent connect call.
 
 -W <#>::
 --nr-write-queues=<#>::
@@ -132,7 +139,24 @@ OPTIONS
 -Q <#>::
 --queue-size=<#>::
 	Overrides the default number of elements in the I/O queues created
-	by the driver.
+	by the driver. This option will be ignored for discovery, but will be
+	passed on to the subsequent connect call.
+
+-m::
+--matching::
+	If a traddr was specified on the command line or in the configuration
+	file, only create controllers for discovery records that match the
+	given traddr, rather than for all entries in the discovery log page.
+
+-p::
+--persistent::
+	Don't remove the discovery controller after retrieving the discovery
+	log page.
+
+-q::
+--quiet::
+	Suppress error messages.
+
 
 EXAMPLES
 --------

@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.8" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>nvme-create-ns(1)</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -94,7 +95,9 @@ ul > li > * { color: black; }
   padding: 0;
   margin: 0;
 }
-
+pre {
+  white-space: pre-wrap;
+}
 
 #author {
   color: #527bbd;
@@ -223,7 +226,7 @@ div.exampleblock > div.content {
 }
 
 div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; }
+span.image img { border-style: none; vertical-align: text-bottom; }
 a.image:visited { color: white; }
 
 dl {
@@ -751,24 +754,25 @@ nvme-create-ns(1) Manual Page
                         [--flbas=&lt;flbas&gt; | -f &lt;flbas&gt;]
                         [--dps=&lt;dps&gt; | -d &lt;dps&gt;]
                         [--nmic=&lt;nmic&gt; | -m &lt;nmic&gt;]
-                        [--block-size=&lt;block-size&gt; | -b &lt;block-size&gt;]</pre>
+                        [--anagrp-id=&lt;anagrpid&gt; | -a &lt;anagrpid&gt;]
+                        [--nvmset-id=&lt;nvmsetid&gt; | -i &lt;nvmsetid&gt;]
+                        [--csi=&lt;command_set_identifier&gt; | -y &lt;command_set_identifier&gt;]
+                        [--block-size=&lt;block-size&gt; | -b &lt;block-size&gt;]
+                        [--timeout=&lt;timeout&gt; | -t &lt;timeout&gt;]
+DESCRIPTION</pre>
 <div class="attribution">
 </div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_description">DESCRIPTION</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>For the NVMe device given, sends a namespace management command to create
+<div class="listingblock">
+<div class="content">
+<pre><code>For the NVMe device given, sends a namespace management command to create
 the namespace with the requested settings. On success, the namespace
-identifier assigned by the controller is returned.</p></div>
-<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory and may be either the NVMe character
-device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_options">OPTIONS</h2>
-<div class="sectionbody">
+identifier assigned by the controller is returned.
+
+The &lt;device&gt; parameter is mandatory and may be either the NVMe character
+device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).
+
+OPTIONS</code></pre>
+</div></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 -s
@@ -827,6 +831,41 @@ device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).</p></di
 </p>
 </dd>
 <dt class="hdlist1">
+-a
+</dt>
+<dt class="hdlist1">
+--anagrp-id
+</dt>
+<dd>
+<p>
+        ANA Gorup Identifier. If this value is 0h specifies
+        that the controller determines the value to use
+</p>
+</dd>
+<dt class="hdlist1">
+-i &lt;nvmsetid&gt;
+</dt>
+<dt class="hdlist1">
+--nvmset-id=&lt;nvmsetid&gt;
+</dt>
+<dd>
+<p>
+        This field specifies the identifier of the NVM Set.
+</p>
+</dd>
+<dt class="hdlist1">
+-y &lt;command_set_identifier&gt;
+</dt>
+<dt class="hdlist1">
+--csi=&lt;command_set_identifier&gt;
+</dt>
+<dd>
+<p>
+        This field specifies the identifier of command set.
+        if not issued, NVM Command Set will be selected.
+</p>
+</dd>
+<dt class="hdlist1">
 -b
 </dt>
 <dt class="hdlist1">
@@ -858,7 +897,8 @@ device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).</p></di
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-01-28 17:49:54 MST
+Last updated
+ 2020-05-06 10:35:44 CEST
 </div>
 </div>
 </body>

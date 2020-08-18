@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc" />
 <title>nvme-connect-all(1)</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -436,7 +436,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -760,12 +760,15 @@ nvme-connect-all(1) Manual Page
                 [--keep-alive-tmo=&lt;#&gt;     | -k &lt;#&gt;]
                 [--reconnect-delay=&lt;#&gt;    | -c &lt;#&gt;]
                 [--ctrl-loss-tmo=&lt;#&gt;      | -l &lt;#&gt;]
-                [--hdr_digest             | -g]
-                [--data_digest            | -G]
+                [--hdr-digest             | -g]
+                [--data-digest            | -G]
                 [--nr-io-queues=&lt;#&gt;       | -i &lt;#&gt;]
                 [--nr-write-queues=&lt;#&gt;    | -W &lt;#&gt;]
                 [--nr-poll-queues=&lt;#&gt;     | -P &lt;#&gt;]
-                [--queue-size=&lt;#&gt;         | -Q &lt;#&gt;]</pre>
+                [--queue-size=&lt;#&gt;         | -Q &lt;#&gt;]
+                [--matching               | -m]
+                [--persistent             | -p]
+                [--quiet                  | -q]</pre>
 <div class="attribution">
 </div></div>
 </div>
@@ -917,7 +920,9 @@ cellspacing="0" cellpadding="4">
 </dt>
 <dd>
 <p>
-        Overrides the default keep alive timeout (in seconds).
+        Overrides the default keep alive timeout (in seconds). This
+        option will be ignored for discovery, but will be passed on to
+        the subsequent connect call.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -947,7 +952,7 @@ cellspacing="0" cellpadding="4">
 -g
 </dt>
 <dt class="hdlist1">
---hdr_digest
+--hdr-digest
 </dt>
 <dd>
 <p>
@@ -958,7 +963,7 @@ cellspacing="0" cellpadding="4">
 -G
 </dt>
 <dt class="hdlist1">
---data_digest
+--data-digest
 </dt>
 <dd>
 <p>
@@ -974,6 +979,8 @@ cellspacing="0" cellpadding="4">
 <dd>
 <p>
         Overrides the default number of I/O queues create by the driver.
+        This option will be ignored for discovery, but will be passed on
+        to the subsequent connect call.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1007,7 +1014,44 @@ cellspacing="0" cellpadding="4">
 <dd>
 <p>
         Overrides the default number of elements in the I/O queues created
-        by the driver.
+        by the driver. This option will be ignored for discovery, but will be
+        passed on to the subsequent connect call.
+</p>
+</dd>
+<dt class="hdlist1">
+-m
+</dt>
+<dt class="hdlist1">
+--matching
+</dt>
+<dd>
+<p>
+        If a traddr was specified on the command line or in the configuration
+        file, only create controllers for discovery records that match the
+        given traddr, rather than for all entries in the discovery log page.
+</p>
+</dd>
+<dt class="hdlist1">
+-p
+</dt>
+<dt class="hdlist1">
+--persistent
+</dt>
+<dd>
+<p>
+        Don&#8217;t remove the discovery controller after retrieving the discovery
+        log page.
+</p>
+</dd>
+<dt class="hdlist1">
+-q
+</dt>
+<dt class="hdlist1">
+--quiet
+</dt>
+<dd>
+<p>
+        Suppress error messages.
 </p>
 </dd>
 </dl></div>
@@ -1067,7 +1111,7 @@ nvme-connect(1)</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-04-04 01:16:22 KST
+ 2020-04-29 22:28:00 CEST
 </div>
 </div>
 </body>

@@ -45,7 +45,7 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
         - Attributes:
               - feature_id_list : list of the mandatory features.
               - get_vector_list_cmd : vector list collection for 09h.
-              - vector_list : vector list to hold the interrupt vectors.
+              - vector_list_len : numer of the interrupt vectors.
     """
 
     def __init__(self):
@@ -54,13 +54,14 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
         self.setup_log_dir(self.__class__.__name__)
         self.feature_id_list = ["0x01", "0x02", "0x04", "0x05", "0x07",
                                 "0x08", "0x09", "0x0A", "0x0B"]
-        get_vector_list_cmd = "cat /proc/interrupts | grep nvme |" \
+        device = self.ctrl.split('/')[-1]
+        get_vector_list_cmd = "grep " + device + "q /proc/interrupts |" \
                               " cut -d : -f 1 | tr -d ' ' | tr '\n' ' '"
         proc = subprocess.Popen(get_vector_list_cmd,
                                 shell=True,
-                                stdout=subprocess.PIPE)
-        self.vector_list = []
-        self.vector_list = proc.stdout.read().strip().split(" ")
+                                stdout=subprocess.PIPE,
+                                encoding='utf-8')
+        self.vector_list_len = len(proc.stdout.read().strip().split(" "))
 
     def __del__(self):
         """ Post Section for TestNVMeGetMandatoryFeatures
@@ -77,22 +78,24 @@ class TestNVMeGetMandatoryFeatures(TestNVMe):
                 - None
         """
         if str(feature_id) == "0x09":
-            for vector in self.vector_list:
+            for vector in range(self.vector_list_len):
                 get_feat_cmd = "nvme get-feature " + self.ctrl + \
                                " --feature-id=" + str(feature_id) + \
-                               " --cdw11=" + str(vector)
+                               " --cdw11=" + str(vector) + " -H"
                 proc = subprocess.Popen(get_feat_cmd,
                                         shell=True,
-                                        stdout=subprocess.PIPE)
+                                        stdout=subprocess.PIPE,
+                                        encoding='utf-8')
                 feature_output = proc.communicate()[0]
                 print(feature_output)
                 assert_equal(proc.wait(), 0)
         else:
             get_feat_cmd = "nvme get-feature " + self.ctrl + \
-                           " --feature-id=" + str(feature_id)
+                           " --feature-id=" + str(feature_id) + " -H"
             proc = subprocess.Popen(get_feat_cmd,
                                     shell=True,
-                                    stdout=subprocess.PIPE)
+                                    stdout=subprocess.PIPE,
+                                    encoding='utf-8')
             feature_output = proc.communicate()[0]
             print(feature_output)
             assert_equal(proc.wait(), 0)
